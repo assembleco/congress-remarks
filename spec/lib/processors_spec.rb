@@ -3,13 +3,13 @@ require "processors/congress/txt"
 
 RSpec.describe "congressional bill processors" do
   describe "117th HR 1; 'For the People'" do
-    pending "is processed equally, whether as XML or TXT" do
+    it "is processed equally, whether as XML or TXT" do
       xml_processor = Processor::Congress::XML.new \
         File.read \
-        Rails.root.join "spec/uploads/BILLS-117hr1eh.xml"
+        File.expand_path("../../uploads/BILLS-117hr1eh.xml", __FILE__)
       txt_processor = Processor::Congress::TXT.new \
         File.read \
-        Rails.root.join "spec/uploads/BILLS-117hr1eh.txt"
+        File.expand_path( "../../uploads/BILLS-117hr1eh.txt", __FILE__)
 
       processed_a = xml_processor.process
       processed_b = txt_processor.process
