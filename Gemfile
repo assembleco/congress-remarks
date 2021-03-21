@@ -32,6 +32,7 @@ group :development, :test do
   gem "awesome_print"
   gem "pry-byebug"
   gem "pry-rails"
+  gem "rspec-rails"
 end
 
 group :test do
