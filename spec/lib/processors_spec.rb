@@ -20,7 +20,7 @@ RSpec.describe "congressional bill processors" do
     pending "Pulls ten titles, labeled using roman numerals" do
       xml_processor = Processor::Congress::XML.new \
         File.read \
-        File.expand_path( "../../uploads/BILLS-117hr1eh.txt", __FILE__)
+        File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
 
       processed = xml_processor.process
 

@@ -1,4 +1,6 @@
 require "measure"
+require "nokogiri"
+require "pry"
 
 module Processor
   module Congress
@@ -10,6 +12,8 @@ module Processor
       attr_reader :source
 
       def process
+        xml = Nokogiri::XML(source)
+        binding.pry
         Measure.new(source)
       end
     end
