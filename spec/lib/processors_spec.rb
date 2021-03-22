@@ -17,7 +17,7 @@ RSpec.describe "congressional bill processors" do
       expect(processed_a.source).to eq processed_b.source
     end
 
-    it "Pulls divisions and titles, with labels and headings" do
+    it "Pulls hierarchical divisions and titles, with labels and headings" do
       xml_processor = Processor::Congress::XML.new \
         File.read \
         File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
@@ -43,6 +43,17 @@ RSpec.describe "congressional bill processors" do
         ["VIII", "Ethics Reforms for the President, Vice President, and Federal Officers and Employees"],
         ["IX", "Congressional Ethics Reform"],
         ["X", "Presidential and Vice Presidential Tax Transparency"],
+      ])
+
+      expect(
+        processed.
+        measures(:division)[0].
+        measures(:title).
+        map {|t| [t.label, t.heading] }
+      ).to match_array([
+        ["I", "Election Access"],
+        ["II", "Election Integrity"],
+        ["III", "Election Security"],
       ])
     end
   end
