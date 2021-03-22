@@ -20,42 +20,45 @@ module Processor
         divisions = []
         division_measures = []
 
-        measures = title_nodes.each {|node|
-          # puts node.ancestors.map(&:name).reverse.inspect
+        title_nodes.each do |node|
+          measure = Measure.new(
+            :title,
+            node.search("enum")[0].text,
+            node.search("header")[0].text,
+            node.text,
+            [],
+          )
 
           division = node.ancestors[0]
-          prior_division = divisions[-1]
 
-          if(prior_division == division)
-            # puts "Aha!"
-            # puts prior_division.search("header")[0].text
+          if(divisions[-1] == division)
+            puts "Aha!"
+            puts divisions[-1].search("header")[0].text
 
-            division_measures[-1].add_submeasure(Measure.new(
-              :title,
-              node.search("enum")[0].text,
-              node.search("header")[0].text,
-              nil,
-              [],
-            ))
+            division_measures[-1].add_submeasure(measure)
           else
+            puts "Oho."
+            puts division.search("header")[0].text
+
             divisions << division
             division_measures << Measure.new(
               :division,
               division.search("enum")[0].text,
               division.search("header")[0].text,
-              nil,
-              [],
+              division.text,
+              [measure],
             )
           end
-
-        }
+        end
+        puts division_measures.map(&:submeasures)
 
         Measure.new(
           :act,
           nil,
           "For the People Act of 2021",
           source,
-          division_measures,)
+          division_measures,
+        )
       end
     end
   end
