@@ -13,6 +13,19 @@ module Processor
 
       def process
         xml = Nokogiri::XML(source)
+        divisions = xml.
+          search("division").
+          map{|d| [
+            d.search("enum")[0].text,
+            d.search("header")[0].text,
+        ] }
+        titles = xml.
+          search("title").
+          map{|d| [
+            d.search("enum")[0].text,
+            d.search("header")[0].text,
+        ] }
+
         binding.pry
         Measure.new(source)
       end
