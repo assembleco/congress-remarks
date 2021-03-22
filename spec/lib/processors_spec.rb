@@ -17,24 +17,25 @@ RSpec.describe "congressional bill processors" do
       expect(processed_a.source).to eq processed_b.source
     end
 
-    pending "Pulls ten titles, labeled using roman numerals" do
+    it "Pulls ten titles, labeled using roman numerals" do
       xml_processor = Processor::Congress::XML.new \
         File.read \
         File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
 
       processed = xml_processor.process
 
-      expect(processed.measures("title").map{|t| [t.label, t.heading]}).to eq([
-        ["I", "ELECTION ACCESS"],
-        ["II", "ELECTION INTEGRITY"],
-        ["III", "ELECTION SECURITY"],
-        ["IV", "CAMPAIGN FINANCE TRANSPARENCY"],
-        ["V", "SMALL DOLLAR FINANCING OF CONGRESSIONAL ELECTION CAMPAIGNS"],
-        ["VI", "CAMPAIGN FINANCE OVERSIGHT"],
-        ["VII", "ETHICAL STANDARDS"],
-        ["VIII", "ETHICAL REFORMS FOR THE PRESIDENT, VICE PRESIDENT, AND FEDERAL OFFICERS AND EMPLOYEES"],
-        ["IX", "CONGRESSIONAL ETHICS REFORM"],
-        ["X", "PRESIDENTIAL AND VICE pRESIDENTIAL TAX TRANSPARENCY"],
+      expect(processed.measures(:title).map{|t| [t.label, t.heading]}).
+        to match_array([
+        ["I", "Election Access"],
+        ["II", "Election Integrity"],
+        ["III", "Election Security"],
+        ["IV", "Campaign Finance Transparency"],
+        ["V", "Small Dollar Financing of Congressional Election Campaigns"],
+        ["VI", "Campaign Finance Oversight"],
+        ["VII", "Ethical Standards"],
+        ["VIII", "Ethics Reforms for the President, Vice President, and Federal Officers and Employees"],
+        ["IX", "Congressional Ethics Reform"],
+        ["X", "Presidential and Vice Presidential Tax Transparency"],
       ])
     end
   end
