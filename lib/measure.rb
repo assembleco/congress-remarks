@@ -14,9 +14,9 @@ class Measure
   end
 
   def all_submeasures
-    measures = []
-    submeasures.each {|sm| measures += sm.all_submeasures }
-    measures
+    all = []
+    submeasures.each {|sm| all += [sm, sm.all_submeasures].flatten }
+    all
   end
 
   def add_submeasure(measure)

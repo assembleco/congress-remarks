@@ -24,8 +24,6 @@ RSpec.describe "congressional bill processors" do
 
       processed = xml_processor.process
 
-      p processed.all_submeasures
-
       expect(processed.measures(:division).map{|t| [t.label, t.heading]}).
         to match_array([
           ["A", "Voting"],

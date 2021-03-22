@@ -32,13 +32,13 @@ module Processor
           division = node.ancestors[0]
 
           if(divisions[-1] == division)
-            puts "Aha!"
-            puts divisions[-1].search("header")[0].text
+            # puts "Aha!"
+            # puts divisions[-1].search("header")[0].text
 
             division_measures[-1].add_submeasure(measure)
           else
-            puts "Oho."
-            puts division.search("header")[0].text
+            # puts "Oho."
+            # puts division.search("header")[0].text
 
             divisions << division
             division_measures << Measure.new(
@@ -50,8 +50,8 @@ module Processor
             )
           end
         end
-        puts division_measures.map(&:submeasures)
 
+        # puts division_measures.map(&:submeasures)
         Measure.new(
           :act,
           nil,
