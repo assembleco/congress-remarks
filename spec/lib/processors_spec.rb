@@ -30,7 +30,7 @@ RSpec.describe "congressional bill processors" do
         ["II", "Election Integrity"],
         ["III", "Election Security"],
         ["IV", "Campaign Finance Transparency"],
-        ["V", "Small Dollar Financing of Congressional Election Campaigns"],
+        ["V", "Campaign Finance Empowerment"],
         ["VI", "Campaign Finance Oversight"],
         ["VII", "Ethical Standards"],
         ["VIII", "Ethics Reforms for the President, Vice President, and Federal Officers and Employees"],
