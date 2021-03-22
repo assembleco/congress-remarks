@@ -17,12 +17,19 @@ RSpec.describe "congressional bill processors" do
       expect(processed_a.source).to eq processed_b.source
     end
 
-    it "Pulls ten titles, labeled using roman numerals" do
+    it "Pulls divisions and titles, with labels and headings" do
       xml_processor = Processor::Congress::XML.new \
         File.read \
         File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
 
       processed = xml_processor.process
+
+      expect(processed.measures(:division).map{|t| [t.label, t.heading]}).
+        to match_array([
+          ["A", "Voting"],
+          ["B", "Campaign Finance"],
+          ["C", "Ethics"],
+      ])
 
       expect(processed.measures(:title).map{|t| [t.label, t.heading]}).
         to match_array([
