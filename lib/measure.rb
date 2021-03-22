@@ -10,6 +10,16 @@ class Measure
   attr_reader :source, :label, :marker, :heading, :submeasures
 
   def measures(marker)
-    submeasures.filter {|sm| sm.marker == marker }
+    all_submeasures.filter {|sm| sm.marker == marker }
+  end
+
+  def all_submeasures
+    measures = []
+    submeasures.each {|sm| measures << sm.all_submeasures }
+    measures.flatten
+  end
+
+  def add_submeasure(measure)
+    @submeasures << measure
   end
 end

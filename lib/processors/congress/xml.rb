@@ -14,27 +14,48 @@ module Processor
         xml = Nokogiri::XML(source)
         body = xml.search("legis-body")[0]
 
-        divisions = body.
-          search("division").
-          map{|d| [
-            d.search("enum")[0].text,
-            d.search("header")[0].text,
-        ] }
+        division_nodes = body.search("division")
+        title_nodes = body.search(":not(quoted-block) > title")
 
-        titles = body.
-          search(":not(quoted-block) > title").
-          map{|d| [
-            d.search("enum")[0].text,
-            d.search("header")[0].text,
-        ] }
+        divisions = []
+        division_measures = []
 
-        measures = titles.map {|t|
-          Measure.new(:title, t[0], t[1], nil, [])
-        } + divisions.map {|d|
-          Measure.new(:division, d[0], d[1], nil, [])
+        measures = title_nodes.each {|node|
+          # puts node.ancestors.map(&:name).reverse.inspect
+
+          division = node.ancestors[0]
+          prior_division = divisions[-1]
+
+          if(prior_division == division)
+            # puts "Aha!"
+            # puts prior_division.search("header")[0].text
+
+            division_measures[-1].add_submeasure(Measure.new(
+              :title,
+              node.search("enum")[0].text,
+              node.search("header")[0].text,
+              nil,
+              [],
+            ))
+          else
+            divisions << division
+            division_measures << Measure.new(
+              :division,
+              division.search("enum")[0].text,
+              division.search("header")[0].text,
+              nil,
+              [],
+            )
+          end
+
         }
 
-        Measure.new(:act, nil, nil, source, measures)
+        Measure.new(
+          :act,
+          nil,
+          "For the People Act of 2021",
+          source,
+          division_measures,)
       end
     end
   end
