@@ -57,7 +57,7 @@ RSpec.describe "congressional bill processors" do
       ])
     end
 
-    pending "pulls parts and sections" do
+    it "pulls parts and sections" do
       xml_processor = Processor::Congress::XML.new \
         File.read \
         File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
@@ -69,8 +69,8 @@ RSpec.describe "congressional bill processors" do
         measures(:part)[0].
         measures(:section)[0]
 
-      expect(sec_1001.label).to eq("1001")
-      expect(sec_1001.heading).to eq("Requiring Availability of Internet for Voter Registration")
+      expect(sec_1001.label).to eq("1001.")
+      expect(sec_1001.heading).to eq("Requiring availability of internet for voter registration")
     end
   end
 end
