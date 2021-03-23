@@ -16,39 +16,34 @@ module Processor
 
         lookup = {}
         body.traverse do |node|
-          next if lookup[node]
           chain = node.ancestors.map(&:name).reverse + [node.name]
           next if chain.include? "quoted-block"
 
-          if node.name == "section"
-            section = Measure.new(
-              :section,
-              node.search("enum")[0].text,
-              node.search("header")[0].text,
-              node.text,
-              [],
-            )
-
-            under = section
-            node.ancestors.each do |upper|
-              unless %w[division title subtitle part subpart section].
-                include? upper.name
-                # puts "Skipping #{upper.name}"
-                next
-              end
-
-              lookup[upper] ||= Measure.new(
-                upper.name.to_sym,
-                upper.search("enum")[0].text,
-                upper.search("header")[0].text,
-                nil,
-                [],
-              )
-              lookup[upper].add_submeasure(under)
-
-              under = lookup[upper]
-            end
+          upper = node.ancestors[0]
+          recognized_measures = %w[division title subtitle part subpart section]
+          unless \
+              recognized_measures.include?(node.name) &&
+              recognized_measures.include?(upper.name)
+            next
           end
+
+          measure = Measure.new(
+            node.name.to_sym,
+            node.search("enum")[0].text,
+            node.search("header")[0].text,
+            node.text,
+            [],
+          )
+
+          lookup[upper] ||= Measure.new(
+            upper.name.to_sym,
+            upper.search("enum")[0].text,
+            upper.search("header")[0].text,
+            nil,
+            [],
+          )
+
+          lookup[upper].add_submeasure(lookup[node] || measure)
         end
 
         division_measures = body.search("division").map{|dn| lookup[dn] }
