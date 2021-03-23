@@ -14,6 +14,24 @@ module Processor
         xml = Nokogiri::XML(source)
         body = xml.search("legis-body")[0]
 
+        body.traverse do |node|
+          chain = node.ancestors.map(&:name).reverse + [node.name]
+          next if chain.include? "quoted-block"
+
+          if node.name == "section"
+            p chain
+
+            puts Measure.new(
+              :section,
+              node.search("enum")[0].text,
+              node.search("header")[0].text,
+              node.text,
+              [],
+            )
+            puts
+          end
+        end
+
         division_nodes = body.search("division")
         title_nodes = body.search(":not(quoted-block) > title")
 
