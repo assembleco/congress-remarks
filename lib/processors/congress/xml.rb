@@ -16,6 +16,7 @@ module Processor
 
         lookup = {}
         body.traverse do |node|
+          next if lookup[node]
           chain = node.ancestors.map(&:name).reverse + [node.name]
           next if chain.include? "quoted-block"
 
@@ -30,8 +31,11 @@ module Processor
 
             under = section
             node.ancestors.each do |upper|
-              next unless %w[division title subtitle part subpart section].
+              unless %w[division title subtitle part subpart section].
                 include? upper.name
+                # puts "Skipping #{upper.name}"
+                next
+              end
 
               lookup[upper] ||= Measure.new(
                 upper.name.to_sym,
@@ -42,13 +46,12 @@ module Processor
               )
               lookup[upper].add_submeasure(under)
 
-              under = upper
+              under = lookup[upper]
             end
           end
         end
 
         division_measures = body.search("division").map{|dn| lookup[dn] }
-        require "pry"; binding.pry
 
         # puts division_measures.map(&:submeasures)
         Measure.new(
