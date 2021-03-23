@@ -69,8 +69,17 @@ RSpec.describe "congressional bill processors" do
         measures(:part)[0].
         measures(:section)[0]
 
+      sec_1001_second_approach = processed
+        .measures(:part)[0]
+        .measures(:section)[0]
+
       expect(sec_1001.label).to eq("1001.")
       expect(sec_1001.heading).to eq("Requiring availability of internet for voter registration")
+
+      expect(sec_1001_second_approach.label).to eq("1001.")
+      expect(sec_1001_second_approach.heading).to eq("Requiring availability of internet for voter registration")
+
+      expect(sec_1001).to eq(sec_1001_second_approach)
     end
   end
 end
