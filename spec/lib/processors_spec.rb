@@ -96,5 +96,23 @@ RSpec.describe "congressional bill processors" do
       expect(sec_3000.label).to eq("3000.")
       expect(sec_3000.key).to eq("H98DB08A9CCC445A298F9018DAEEECDCF")
     end
+
+    pending "replaces body text using handlebar code" do
+      xml_processor = Processor::Congress::XML.new \
+        File.read \
+        File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
+
+      processed = xml_processor.process
+      sec_3000 = processed.measure(:section, "3000.")
+
+      expect(sec_3000.source).to eq(<<-END)
+      {place "HC99BDC3F9DAD465DABF21DEA07A6C1C6"}
+      {place "H4C77C311030D49C99E22123F45E810C5"}
+      END
+
+      expect(sec_3000.submeasures[0].source).to eq(<<-END.strip)
+      This title may be cited as the <quote>Election Security Act</quote>.
+      END
+    end
   end
 end
