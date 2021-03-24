@@ -20,7 +20,20 @@ module Processor
           next if chain.include? "quoted-block"
 
           upper = node.ancestors[0]
-          recognized_measures = %w[division title subtitle part subpart section]
+          recognized_measures = %w[
+          division
+          title
+          subtitle
+          part
+          subpart
+          section
+          subsection
+          paragraph
+          subparagraph
+          item
+          subitem
+          ]
+
           unless \
               recognized_measures.include?(node.name) &&
               recognized_measures.include?(upper.name)
@@ -30,7 +43,7 @@ module Processor
           measure = Measure.new(
             node.name.to_sym,
             node.search("enum")[0].text,
-            node.search("header")[0].text,
+            (node.search("header")[0].text rescue nil),
             node.text,
             [],
             node.attr("id"),
@@ -39,7 +52,7 @@ module Processor
           lookup[upper] ||= Measure.new(
             upper.name.to_sym,
             upper.search("enum")[0].text,
-            upper.search("header")[0].text,
+            (upper.search("header")[0].text rescue nil),
             nil,
             [],
             upper.attr("id"),
