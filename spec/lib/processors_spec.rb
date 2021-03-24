@@ -105,13 +105,16 @@ RSpec.describe "congressional bill processors" do
       processed = xml_processor.process
       sec_3000 = processed.measure(:section, "3000.")
 
+      submeasure_a = <<-END.strip
+      This title may be cited as the <quote>Election Security Act</quote>.
+      END
+
+      expect(sec_3000.submeasures[0].source).to eq(submeasure_a)
+      expect(sec_3000.body).to include(submeasure_a)
+
       expect(sec_3000.source).to eq(<<-END)
       {place "HC99BDC3F9DAD465DABF21DEA07A6C1C6"}
       {place "H4C77C311030D49C99E22123F45E810C5"}
-      END
-
-      expect(sec_3000.submeasures[0].source).to eq(<<-END.strip)
-      This title may be cited as the <quote>Election Security Act</quote>.
       END
     end
   end
