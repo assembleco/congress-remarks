@@ -4,6 +4,21 @@ require "nokogiri"
 module Processor
   module Congress
     class XML
+      RECOGNIZED_MEASURES = %w[
+        legis-body
+        division
+        title
+        subtitle
+        part
+        subpart
+        section
+        subsection
+        paragraph
+        subparagraph
+        item
+        subitem
+      ]
+
       def initialize(source)
         @source = source
       end
@@ -24,22 +39,7 @@ module Processor
             node.replace("&lquot;#{node.text}&rquot;")
           end
 
-          recognized_measures = %w[
-          legis-body
-          division
-          title
-          subtitle
-          part
-          subpart
-          section
-          subsection
-          paragraph
-          subparagraph
-          item
-          subitem
-          ]
-
-          next unless recognized_measures.include?(node.name)
+          next unless RECOGNIZED_MEASURES.include?(node.name)
 
           measure = process_measure(node)
           node.replace("{place \"#{measure.key}\"}")
