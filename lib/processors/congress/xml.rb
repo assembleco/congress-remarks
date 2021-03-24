@@ -19,6 +19,10 @@ module Processor
           chain = node.ancestors.map(&:name).reverse + [node.name]
           next if chain.include? "quoted-block"
 
+          if(node.name == "quote")
+            node.replace("&lquot;#{node.text}&rquot;")
+          end
+
           upper = node.ancestors[0]
           recognized_measures = %w[
           division
@@ -39,7 +43,6 @@ module Processor
               recognized_measures.include?(upper.name)
             next
           end
-
           measure = process_measure(node)
 
           lookup[upper] ||= Measure.new(

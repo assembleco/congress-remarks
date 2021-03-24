@@ -106,7 +106,7 @@ RSpec.describe "congressional bill processors" do
       sec_3000 = processed.measure(:section, "3000.")
 
       submeasure_a = <<-END.strip
-      This title may be cited as the <quote>Election Security Act</quote>.
+      This title may be cited as the &lquot;Election Security Act&rquot;.
       END
 
       expect(sec_3000.submeasures[0].source).to eq(submeasure_a)
