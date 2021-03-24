@@ -73,16 +73,15 @@ module Processor
 
       def process_measure(node)
         label = node.search("enum")[0]
-        header = node.search("header")[0]
+        heading = node.search("header")[0]
 
         label.replace('')
-        header.replace('') rescue nil
-        heading = (header.text rescue nil)
+        heading.replace('') rescue nil
 
         Measure.new(
           node.name.to_sym,
           label.text,
-          heading,
+          (heading.text rescue nil),
           node.text,
           [],
           node.attr("id"),
