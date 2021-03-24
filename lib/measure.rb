@@ -8,7 +8,11 @@ class Measure
     @key = key
   end
 
-  attr_reader :source, :label, :marker, :heading, :submeasures, :key
+  attr_reader :label, :marker, :heading, :submeasures, :key
+
+  def source
+    @source.to_s
+  end
 
   def measures(marker)
     all_submeasures.filter {|sm| sm.marker == marker }

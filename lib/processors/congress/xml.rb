@@ -15,6 +15,7 @@ module Processor
         body = xml.search("legis-body")[0]
 
         lookup = {}
+
         body.traverse do |node|
           chain = node.ancestors.map(&:name).reverse + [node.name]
           next if chain.include? "quoted-block"
@@ -24,6 +25,7 @@ module Processor
           end
 
           recognized_measures = %w[
+          legis-body
           division
           title
           subtitle
@@ -44,23 +46,14 @@ module Processor
 
           lookup[measure.key] ||= measure
 
-          submeasure_keys = node.text.scan(/\{place +\"([A-H0-9]+)\"\}/)
-          lookup[measure.key].add_submeasure(measure)
+          submeasure_keys = node.text.scan(/\{place +\"([A-H0-9]+)\"\}/).flatten
+
+          submeasure_keys.each do |sm_key|
+            lookup[measure.key].add_submeasure(lookup[sm_key])
+          end
         end
 
-        division_measures = body.
-          search("division").
-          map{|dn| lookup[dn.attr('id')] }
-
-        # puts division_measures.map(&:submeasures)
-        Measure.new(
-          :act,
-          nil,
-          "For the People Act of 2021",
-          source,
-          division_measures,
-          nil,
-        )
+        lookup[body.attr('id')]
       end
 
 
@@ -68,12 +61,12 @@ module Processor
         label = node.search("enum")[0]
         heading = node.search("header")[0]
 
-        label.replace('')
+        label.replace('') rescue nil
         heading.replace('') rescue nil
 
         Measure.new(
           node.name.to_sym,
-          label.text,
+          (label.text rescue nil),
           (heading.text rescue nil),
           node.text,
           [],
