@@ -81,5 +81,20 @@ RSpec.describe "congressional bill processors" do
 
       expect(sec_1001).to eq(sec_1001_second_approach)
     end
+
+    it "assigns keys based on original record" do
+      xml_processor = Processor::Congress::XML.new \
+        File.read \
+        File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
+
+      processed = xml_processor.process
+
+      sec_3000 = processed.
+        measure(:title, "III").
+        measures(:section)[0]
+
+      expect(sec_3000.label).to eq("3000.")
+      expect(sec_3000.key).to eq("H98DB08A9CCC445A298F9018DAEEECDCF")
+    end
   end
 end

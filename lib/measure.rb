@@ -1,16 +1,21 @@
 class Measure
-  def initialize(marker, label, heading, source, submeasures)
+  def initialize(marker, label, heading, source, submeasures, key)
     @marker = marker
     @label = label
     @heading = heading
     @source = source
     @submeasures = submeasures
+    @key = key
   end
 
-  attr_reader :source, :label, :marker, :heading, :submeasures
+  attr_reader :source, :label, :marker, :heading, :submeasures, :key
 
   def measures(marker)
     all_submeasures.filter {|sm| sm.marker == marker }
+  end
+
+  def measure(marker, label)
+    measures(marker).find {|x| x.label == label }
   end
 
   def all_submeasures

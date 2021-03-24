@@ -33,6 +33,7 @@ module Processor
             node.search("header")[0].text,
             node.text,
             [],
+            node.attr("id"),
           )
 
           lookup[upper] ||= Measure.new(
@@ -41,6 +42,7 @@ module Processor
             upper.search("header")[0].text,
             nil,
             [],
+            upper.attr("id"),
           )
 
           lookup[upper].add_submeasure(lookup[node] || measure)
@@ -55,6 +57,7 @@ module Processor
           "For the People Act of 2021",
           source,
           division_measures,
+          nil,
         )
       end
     end
