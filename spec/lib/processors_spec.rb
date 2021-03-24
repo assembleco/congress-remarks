@@ -110,7 +110,7 @@ RSpec.describe "congressional bill processors" do
       END
 
       expect(sec_3000.submeasures[0].source).to eq(submeasure_a)
-      # expect(sec_3000.body).to include(submeasure_a)
+      expect(sec_3000.body).to include(submeasure_a)
 
       expect(sec_3000.source.lines.map(&:strip)).
         to eq(<<-END.lines.map(&:strip))

@@ -35,6 +35,15 @@ class Measure
     @submeasures << measure
   end
 
+  def body
+    code = source
+    places = source.scan(/(\{place +\"([A-H0-9]+)\"\})/)
+    places.each do |place, key|
+      code = code.gsub(place, submeasures.find {|x| x.key == key }.body)
+    end
+    code
+  end
+
   def inspect
     "[#{marker} #{label}\t:#{source.chars.first(64).join.gsub("\n", "\u23ce")}]"
   end
