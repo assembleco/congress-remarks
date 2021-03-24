@@ -40,14 +40,7 @@ module Processor
             next
           end
 
-          measure = Measure.new(
-            node.name.to_sym,
-            node.search("enum")[0].text,
-            (node.search("header")[0].text rescue nil),
-            node.text,
-            [],
-            node.attr("id"),
-          )
+          measure = process_measure(node)
 
           lookup[upper] ||= Measure.new(
             upper.name.to_sym,
@@ -71,6 +64,25 @@ module Processor
           source,
           division_measures,
           nil,
+        )
+      end
+
+
+      def process_measure(node)
+        label = node.search("enum")[0]
+        header = node.search("header")[0]
+
+        label.replace('')
+        header.replace('') rescue nil
+        heading = (header.text rescue nil)
+
+        Measure.new(
+          node.name.to_sym,
+          label.text,
+          heading,
+          node.text,
+          [],
+          node.attr("id"),
         )
       end
     end
