@@ -4,6 +4,7 @@ import { makeAutoObservable } from "mobx"
 
 class Bill {
   key = ''
+  measure = {}
 
   constructor() {
     makeAutoObservable(this)

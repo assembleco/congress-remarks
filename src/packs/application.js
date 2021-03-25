@@ -29,7 +29,10 @@ autorun(() => console.log(bill.key))
 
 fetch("/bills/117hr1eh")
   .then(response => response.json())
-  .then(response => bill.key = response.key)
+  .then(response => {
+    bill.key = response.key
+    bill.measure = response.source
+  })
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
