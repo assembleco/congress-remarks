@@ -36,7 +36,10 @@ module Processor
           next if chain.include? "quoted-block"
 
           if(node.name == "quote")
-            node.replace("&lquot;#{node.text}&rquot;")
+            node.replace("\"#{node.text}\"")
+          end
+          if(node.name == "toc")
+            node.replace("...\n~~~\n...")
           end
 
           next unless RECOGNIZED_MEASURES.include?(node.name)

@@ -50,7 +50,8 @@ overflow-x: hidden;
 `
 
 var Borderline = styled.div`
-padding-left: 12px;
+margin: 4px;
+padding-left: 8px;
 white-space: pre-wrap;
 border-left: 4px solid ${({ level }) => (
 [
