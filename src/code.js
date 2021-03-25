@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from "mobx-react"
+import styled from "styled-components"
 
 const Code = observer(({ source }) => (
   <div>
@@ -29,11 +30,16 @@ var Measure = observer(({ marker, label, heading, source, submeasures }) => {
   children.push(body.slice(index))
 
   return (
-    <div>
+    <Borderline>
       <h2>{label}: {heading}</h2>
       {children}
-    </div>
+    </Borderline>
   )
 })
+
+var Borderline = styled.pre`
+border-left: 4px solid grey;
+padding-left: 12px;
+`
 
 export default Code
