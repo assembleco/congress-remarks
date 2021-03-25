@@ -17,23 +17,23 @@ require("channels")
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
+import { autorun } from "mobx"
+import { observer } from "mobx-react"
 
-Hello.defaultProps = {
-  name: 'David'
-}
+import Bill from "../bill"
+import Code from "../code"
 
-Hello.propTypes = {
-  name: PropTypes.string
-}
+var bill = new Bill()
+autorun(() => console.log(bill.key))
+
+fetch("/bills/117hr1eh")
+  .then(response => response.json())
+  .then(response => bill.key = response.key)
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name="React" />,
+    <Code source={bill} />,
     document.body.appendChild(document.createElement('div')),
   )
 })
