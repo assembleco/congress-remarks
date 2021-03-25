@@ -9,17 +9,29 @@ const Code = observer(({ source }) => (
 ))
 
 var Measure = observer(({ marker, label, heading, source, submeasures }) => {
-  var body = source
+  var body = source || ''
 
-  if(body)
-    body = body.replaceAll(/(\{place +\"([A-H0-9]+)\"\})/g, (a, b, c, d, e) => {
-      return submeasures.filter(x => x.key == c)[0].source
-    })
+  var matches = body.matchAll(/\{place +\"([A-H0-9]+)\"\}/g)
+
+  var children = []
+  var index = 0
+  var code = matches.next()
+  while(!code.done) {
+    children.push(body.slice(index, code.value.index))
+    index = code.value.index
+
+    var measure = submeasures.filter(x => x.key == code.value[1])[0]
+    children.push(<Measure {...measure} />)
+    index += code.value[0].length
+
+    code = matches.next()
+  }
+  children.push(body.slice(index))
 
   return (
     <div>
       <h2>{label}: {heading}</h2>
-      <pre>{body}</pre>
+      {children}
     </div>
   )
 })
