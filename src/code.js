@@ -18,7 +18,7 @@ var Measure = observer(({ marker, label, heading, source, submeasures, level }) 
   var index = 0
   var code = matches.next()
   while(!code.done) {
-    children.push(body.slice(index, code.value.index))
+    children.push(body.slice(index, code.value.index).trim())
     index = code.value.index
 
     var measure = submeasures.filter(x => x.key == code.value[1])[0]
@@ -31,11 +31,16 @@ var Measure = observer(({ marker, label, heading, source, submeasures, level }) 
 
   return (
     <Borderline level={level} >
-      <h3>{label}: {heading}</h3>
+      <Heading>{label}: {heading}</Heading>
       {children}
     </Borderline>
   )
 })
+
+var Heading = styled.h3`
+margin: 0.2rem;
+display: inline-block;
+`
 
 var Page = styled.div`
 background: bisque;
