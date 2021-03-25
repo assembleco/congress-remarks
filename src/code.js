@@ -45,13 +45,14 @@ var Measure = observer(({ marker, label, heading, source, submeasures, level, bo
 
 var Heading = styled.h3`
 margin: 0.2rem;
+margin-bottom: 0;
 display: inline-block;
 `
 
 var Page = styled.div`
-background: bisque;
+background: #faf9dd;
 border: 4px solid grey;
-width: 60rem;
+width: 48rem;
 overflow-x: hidden;
 `
 
@@ -62,7 +63,7 @@ white-space: pre-wrap;
 border-left: 4px solid ${({ level }) => (
 [ "#b58900", "#cb4b16", "#dc322f", "#d33682", "#6c71c4", "#268bd2", "#2aa198", "#859900", ][level] || 'grey'
 )};
-${({ box }) => box && "background: #ffffff66;"}
+${({ box }) => box && "background: #f8f6bbaa;"}
 `
 
 export default Code
