@@ -6,7 +6,7 @@ const Code = observer(({ source }) => (
     <h1>{source.key}</h1>
     <div>
       <h2>{source.measure.label}: {source.measure.heading}</h2>
-      <p>{source.measure.source}</p>
+      <pre>{source.measure.source}</pre>
     </div>
   </div>
 
