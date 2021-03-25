@@ -3,10 +3,10 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 const Code = observer(({ source }) => (
-  <div>
+  <Page>
     <h1>{source.key}</h1>
     <Measure {...source.measure} />
-  </div>
+  </Page>
 ))
 
 var Measure = observer(({ marker, label, heading, source, submeasures }) => {
@@ -31,15 +31,23 @@ var Measure = observer(({ marker, label, heading, source, submeasures }) => {
 
   return (
     <Borderline>
-      <h2>{label}: {heading}</h2>
+      <h3>{label}: {heading}</h3>
       {children}
     </Borderline>
   )
 })
 
-var Borderline = styled.pre`
+var Page = styled.div`
+background: bisque;
+border: 4px solid grey;
+width: 60rem;
+overflow-x: hidden;
+`
+
+var Borderline = styled.div`
 border-left: 4px solid grey;
 padding-left: 12px;
+white-space: pre-wrap;
 `
 
 export default Code
