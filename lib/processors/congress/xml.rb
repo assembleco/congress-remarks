@@ -40,7 +40,7 @@ module Processor
             node.replace("\"#{node.text}\"")
           end
           if(node.name == "toc")
-            node.replace("...\n~~~\n...")
+            node.replace("\n...\n~~~\n...")
           end
 
           next unless RECOGNIZED_MEASURES.include?(node.name)
