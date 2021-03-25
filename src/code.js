@@ -4,12 +4,15 @@ import { observer } from "mobx-react"
 const Code = observer(({ source }) => (
   <div>
     <h1>{source.key}</h1>
-    <div>
-      <h2>{source.measure.label}: {source.measure.heading}</h2>
-      <pre>{source.measure.source}</pre>
-    </div>
+    <Measure {...source.measure} />
   </div>
+))
 
+var Measure = observer(({marker, label, heading, key, source, submeasures}) => (
+    <div>
+      <h2>{label}: {heading}</h2>
+      <pre>{source}</pre>
+    </div>
 ))
 
 export default Code
