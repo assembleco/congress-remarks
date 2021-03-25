@@ -9,7 +9,7 @@ const Code = observer(({ source }) => (
   </Page>
 ))
 
-var Measure = observer(({ marker, label, heading, source, submeasures, level }) => {
+var Measure = observer(({ marker, label, heading, source, submeasures, level, box }) => {
   var body = source || ''
 
   var matches = body.matchAll(/\{place +\"([A-H0-9]+)\"\}/g)
@@ -22,7 +22,13 @@ var Measure = observer(({ marker, label, heading, source, submeasures, level }) 
     index = code.value.index
 
     var measure = submeasures.filter(x => x.key == code.value[1])[0]
-    children.push(<Measure {...measure} level={level + 1} />)
+    children.push(
+      <Measure
+      {...measure}
+      level={measure.marker === "quoted-block" ? 0 : level + 1}
+      box={measure.marker === "quoted-block"}
+      />
+    )
     index += code.value[0].length
 
     code = matches.next()
@@ -30,7 +36,7 @@ var Measure = observer(({ marker, label, heading, source, submeasures, level }) 
   children.push(body.slice(index))
 
   return (
-    <Borderline level={level} >
+    <Borderline box={box} level={level} >
       <Heading>{label}: {heading}</Heading>
       {children}
     </Borderline>
@@ -54,17 +60,9 @@ margin: 4px;
 padding-left: 8px;
 white-space: pre-wrap;
 border-left: 4px solid ${({ level }) => (
-[
-"#b58900",
-"#cb4b16",
-"#dc322f",
-"#d33682",
-"#6c71c4",
-"#268bd2",
-"#2aa198",
-"#859900",
-][level] || 'grey'
+[ "#b58900", "#cb4b16", "#dc322f", "#d33682", "#6c71c4", "#268bd2", "#2aa198", "#859900", ][level] || 'grey'
 )};
+${({ box }) => box && "background: #ffffff66;"}
 `
 
 export default Code

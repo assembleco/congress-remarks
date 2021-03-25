@@ -17,6 +17,7 @@ module Processor
         subparagraph
         item
         subitem
+        quoted-block
       ]
 
       def initialize(source)
@@ -33,7 +34,7 @@ module Processor
 
         body.traverse do |node|
           chain = node.ancestors.map(&:name).reverse + [node.name]
-          next if chain.include? "quoted-block"
+          # next if chain.include? "quoted-block"
 
           if(node.name == "quote")
             node.replace("\"#{node.text}\"")
