@@ -48,12 +48,13 @@ class Measure extends React.Component {
 
     return (
       <Borderline
-      box={box}
-      level={level}
-      onClick={(e) => {
-        this.setState({ collapsed: !this.state.collapsed })
-        e.stopPropagation()
-      }}
+        remarking={this.state.remark !== null}
+        box={box}
+        level={level}
+        onClick={(e) => {
+          this.setState({ collapsed: !this.state.collapsed })
+          e.stopPropagation()
+        }}
       >
         <RemarkBalloon
           onClick={(e) => {
@@ -71,7 +72,12 @@ class Measure extends React.Component {
               width="2rem"
               />
           :
-            "Add your remark"
+            <RemarkBox
+            value={this.state.remark}
+            ref={(node) => node && node.focus()}
+            onChange={(e) => {
+              this.setState({ remark: e.target.value })
+            }} />
           }
         </RemarkBalloon>
 
@@ -90,6 +96,9 @@ top: 0;
 &:hover svg path {
   stroke: #86de86;
 }
+`
+
+var RemarkBox = styled.input`
 `
 
 var Heading = styled.h3`
@@ -129,8 +138,8 @@ ${({ box }) => box && `
   padding: 8px;
 `}
 
-${RemarkBalloon} {
-  opacity: 0;
+& > ${RemarkBalloon} {
+  opacity: ${({remarking}) => remarking ? "100%" : 0};
   transition: opacity 0.2s ease-in;
 }
 &:hover > ${RemarkBalloon} {
