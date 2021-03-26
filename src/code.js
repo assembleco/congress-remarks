@@ -2,6 +2,9 @@ import React from 'react'
 import { observer } from "mobx-react"
 import styled from "styled-components"
 
+import { Icon, InlineIcon } from '@iconify/react'
+import commentIcon from '@iconify-icons/akar-icons/comment'
+
 const Code = observer(({ source }) => (
   <Page>
     <h1>{source.key}</h1>
@@ -51,12 +54,28 @@ class Measure extends React.Component {
         e.stopPropagation()
       }}
       >
+        <RemarkBalloon>
+          <Icon
+            icon={commentIcon}
+            rotate="90deg"
+            flip="horizontal"
+            color="#3d3b11"
+            width="2rem"
+          />
+        </RemarkBalloon>
+
         <Heading>{label}: {heading}</Heading>
         {!this.state.collapsed && <Body>{children}</Body>}
       </Borderline>
     )
   }
 }
+
+var RemarkBalloon = styled.span`
+position: absolute;
+right: -3.2rem;
+top: 0;
+`
 
 var Heading = styled.h3`
 margin: 0.2rem;
@@ -71,16 +90,17 @@ font-family: "Ruluko";
 `
 
 var Page = styled.div`
+position: relative;
 background: #faf9dd;
 border: 4px solid #3d3b11;
 color: #3d3b11;
 width: 48rem;
-overflow-x: hidden;
 padding-left: 12px;
 padding-right: 16px;
 `
 
 var Borderline = styled.div`
+position: relative;
 margin: 4px;
 margin-right: 0;
 padding-left: 8px;

@@ -18,6 +18,8 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@iconify-icons/akar-icons": "^1.1.5",
+    "@iconify/react": "^1.1.4",
     "webpack-dev-server": "^3.11.2"
   }
 }
