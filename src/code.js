@@ -54,16 +54,21 @@ background: #faf9dd;
 border: 4px solid grey;
 width: 48rem;
 overflow-x: hidden;
+padding-right: 16px;
 `
 
 var Borderline = styled.div`
 margin: 4px;
+margin-right: 0;
 padding-left: 8px;
 white-space: pre-wrap;
 border-left: 4px solid ${({ level }) => (
 [ "#b58900", "#cb4b16", "#dc322f", "#d33682", "#6c71c4", "#268bd2", "#2aa198", "#859900", ][level] || 'grey'
 )};
-${({ box }) => box && "background: #f8f6bbaa;"}
+${({ box }) => box && `
+  background: #d4f1d9aa;
+  padding: 8px;
+`}
 `
 
 export default Code
