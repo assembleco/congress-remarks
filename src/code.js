@@ -80,7 +80,10 @@ class Measure extends React.Component {
               onChange={(e) => {
                 this.setState({ remark: e.target.value })
               }} />
-              <Clickable onClick={() => this.setState({ remark: null })}>
+              <Clickable onClick={(e) => {
+                this.setState({ remark: null })
+                e.stopPropagation()
+              }}>
                 Cancel
               </Clickable>
               <Clickable
