@@ -98,9 +98,10 @@ font-family: "Ruluko";
 `
 
 var Page = styled.div`
+border: 4px solid #3d3b11;
+border-radius: 8px;
 position: relative;
 background: #faf9dd;
-border: 4px solid #3d3b11;
 color: #3d3b11;
 width: 48rem;
 padding-left: 12px;
