@@ -38,7 +38,7 @@ var Measure = observer(({ marker, label, heading, source, submeasures, level, bo
   return (
     <Borderline box={box} level={level} >
       <Heading>{label}: {heading}</Heading>
-      {children}
+      <Body>{children}</Body>
     </Borderline>
   )
 })
@@ -47,13 +47,21 @@ var Heading = styled.h3`
 margin: 0.2rem;
 margin-bottom: 0;
 display: inline-block;
+font-family: "Times";
+`
+
+var Body = styled.div`
+display: inline;
+font-family: "Ruluko";
 `
 
 var Page = styled.div`
 background: #faf9dd;
-border: 4px solid grey;
+border: 4px solid #3d3b11;
+color: #3d3b11;
 width: 48rem;
 overflow-x: hidden;
+padding-left: 12px;
 padding-right: 16px;
 `
 
