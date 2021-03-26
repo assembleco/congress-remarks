@@ -112,6 +112,14 @@ ${({ box }) => box && `
   background: #d4f1d9aa;
   padding: 8px;
 `}
+
+${RemarkBalloon} {
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+}
+&:hover > ${RemarkBalloon} {
+  opacity: 100%;
+}
 `
 
 export default Code
