@@ -54,7 +54,11 @@ class Measure extends React.Component {
         e.stopPropagation()
       }}
       >
-        <RemarkBalloon>
+        <RemarkBalloon
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
+        >
           <Icon
             icon={commentIcon}
             rotate="90deg"
@@ -75,6 +79,10 @@ var RemarkBalloon = styled.span`
 position: absolute;
 right: -3.2rem;
 top: 0;
+
+&:hover svg path {
+  stroke: #86de86;
+}
 `
 
 var Heading = styled.h3`
