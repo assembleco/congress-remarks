@@ -57,6 +57,7 @@ class Measure extends React.Component {
         }}
       >
         <RemarkBalloon
+          remarking={this.state.remark !== null}
           onClick={(e) => {
             this.setState({ remark: '' })
             e.stopPropagation()
@@ -72,12 +73,23 @@ class Measure extends React.Component {
               width="2rem"
               />
           :
-            <RemarkBox
-            value={this.state.remark}
-            ref={(node) => node && node.focus()}
-            onChange={(e) => {
-              this.setState({ remark: e.target.value })
-            }} />
+            <RemarkGrid>
+              <RemarkBox
+              value={this.state.remark}
+              ref={(node) => node && node.focus()}
+              onChange={(e) => {
+                this.setState({ remark: e.target.value })
+              }} />
+              <Clickable onClick={() => this.setState({ remark: null })}>
+                Cancel
+              </Clickable>
+              <Clickable
+                color="#86de86"
+                onClick={() => null}
+              >
+                Place Remark
+              </Clickable>
+            </RemarkGrid>
           }
         </RemarkBalloon>
 
@@ -90,7 +102,7 @@ class Measure extends React.Component {
 
 var RemarkBalloon = styled.span`
 position: absolute;
-right: -3.2rem;
+right: ${({remarking}) => remarking ? "-27rem" : "-3.2rem"};
 top: 0;
 
 &:hover svg path {
@@ -98,7 +110,30 @@ top: 0;
 }
 `
 
-var RemarkBox = styled.input`
+var RemarkBox = styled.textarea`
+height: 6rem;
+width: 24rem;
+padding: 0.6rem;
+`
+
+var Clickable = styled.button`
+padding: 8px;
+${({ color }) => color && `background-color: ${color};`}
+color: #3d3b11;
+outline: none;
+border: 4px solid #3d3b11;
+border-radius: 8px;
+`
+
+var RemarkGrid = styled.div`
+display: grid;
+grid-template-columns: auto 1fr;
+grid-template-rows: 1fr auto;
+grid-gap: 8px;
+
+${RemarkBox} {
+grid-column: 1 / -1;
+}
 `
 
 var Heading = styled.h3`
