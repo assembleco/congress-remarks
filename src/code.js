@@ -9,39 +9,54 @@ const Code = observer(({ source }) => (
   </Page>
 ))
 
-var Measure = observer(({ marker, label, heading, source, submeasures, level, box }) => {
-  var body = source || ''
-
-  var matches = body.matchAll(/\{place +\"([A-H0-9]+)\"\}/g)
-
-  var children = []
-  var index = 0
-  var code = matches.next()
-  while(!code.done) {
-    children.push(body.slice(index, code.value.index).trim())
-    index = code.value.index
-
-    var measure = submeasures.filter(x => x.key == code.value[1])[0]
-    children.push(
-      <Measure
-      {...measure}
-      level={measure.marker === "quoted-block" ? 0 : level + 1}
-      box={measure.marker === "quoted-block"}
-      />
-    )
-    index += code.value[0].length
-
-    code = matches.next()
+@observer
+class Measure extends React.Component {
+  state = {
+    collapsed: false,
   }
-  children.push(body.slice(index))
 
-  return (
-    <Borderline box={box} level={level} >
-      <Heading>{label}: {heading}</Heading>
-      <Body>{children}</Body>
-    </Borderline>
-  )
-})
+  render = () => {
+    var { marker, label, heading, source, submeasures, level, box } = this.props
+    var body = source || ''
+
+    var matches = body.matchAll(/\{place +\"([A-H0-9]+)\"\}/g)
+
+    var children = []
+    var index = 0
+    var code = matches.next()
+    while(!code.done) {
+      children.push(body.slice(index, code.value.index).trim())
+      index = code.value.index
+
+      var measure = submeasures.filter(x => x.key == code.value[1])[0]
+      children.push(
+        <Measure
+        {...measure}
+        level={measure.marker === "quoted-block" ? 0 : level + 1}
+        box={measure.marker === "quoted-block"}
+        />
+      )
+      index += code.value[0].length
+
+      code = matches.next()
+    }
+    children.push(body.slice(index))
+
+    return (
+      <Borderline
+      box={box}
+      level={level}
+      onClick={(e) => {
+        this.setState({ collapsed: !this.state.collapsed })
+        e.stopPropagation()
+      }}
+      >
+        <Heading>{label}: {heading}</Heading>
+        {!this.state.collapsed && <Body>{children}</Body>}
+      </Borderline>
+    )
+  }
+}
 
 var Heading = styled.h3`
 margin: 0.2rem;
