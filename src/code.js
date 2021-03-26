@@ -15,6 +15,7 @@ const Code = observer(({ source }) => (
 @observer
 class Measure extends React.Component {
   state = {
+    remark: null,
     collapsed: false,
   }
 
@@ -56,16 +57,22 @@ class Measure extends React.Component {
       >
         <RemarkBalloon
           onClick={(e) => {
+            this.setState({ remark: '' })
             e.stopPropagation()
           }}
         >
-          <Icon
-            icon={commentIcon}
-            rotate="90deg"
-            flip="horizontal"
-            color="#3d3b11"
-            width="2rem"
-          />
+          {this.state.remark === null
+          ?
+            <Icon
+              icon={commentIcon}
+              rotate="90deg"
+              flip="horizontal"
+              color="#3d3b11"
+              width="2rem"
+              />
+          :
+            "Add your remark"
+          }
         </RemarkBalloon>
 
         <Heading>{label}: {heading}</Heading>
