@@ -5,10 +5,15 @@ import styled from "styled-components"
 import { Icon, InlineIcon } from '@iconify/react'
 import commentIcon from '@iconify-icons/akar-icons/comment'
 
-const Code = observer(({ source }) => (
+const Code = observer(({ source, remarks }) => (
   <Page>
     <h1>{source.key}</h1>
-    <Measure {...source.measure} level={0} />
+    <Measure
+      {...source.measure}
+      place={source.measure.key}
+      level={0}
+      remarks={remarks}
+    />
   </Page>
 ))
 
@@ -20,7 +25,17 @@ class Measure extends React.Component {
   }
 
   render = () => {
-    var { marker, label, heading, source, submeasures, level, box } = this.props
+    var {
+      box,
+      heading,
+      label,
+      level,
+      marker,
+      place,
+      remarks,
+      source,
+      submeasures,
+    } = this.props
     var body = source || ''
 
     var matches = body.matchAll(/\{place +\"([A-H0-9]+)\"\}/g)
@@ -35,9 +50,11 @@ class Measure extends React.Component {
       var measure = submeasures.filter(x => x.key == code.value[1])[0]
       children.push(
         <Measure
-        {...measure}
-        level={measure.marker === "quoted-block" ? 0 : level + 1}
-        box={measure.marker === "quoted-block"}
+          {...measure}
+          level={measure.marker === "quoted-block" ? 0 : level + 1}
+          box={measure.marker === "quoted-block"}
+          remarks={remarks}
+          place={measure.key}
         />
       )
       index += code.value[0].length
@@ -46,8 +63,11 @@ class Measure extends React.Component {
     }
     children.push(body.slice(index))
 
+    var remarks = remarks.filter(x => x.place === place)
+
     return (
       <Borderline
+        remarks={remarks}
         remarking={this.state.remark !== null}
         box={box}
         level={level}
@@ -57,6 +77,7 @@ class Measure extends React.Component {
         }}
       >
         <RemarkBalloon
+          remarks={remarks}
           remarking={this.state.remark !== null}
           onClick={(e) => {
             this.setState({ remark: '' })
@@ -74,6 +95,19 @@ class Measure extends React.Component {
               />
           :
             <RemarkGrid>
+              {remarks.map(remark => (
+                <Remark>
+                  <Handle>{remark.person.handle}</Handle>
+                  {remark.person.badges.length
+                  && <span>({remark.person.badges.join(", ")})</span>
+                  }
+
+                  <div>
+                    {remark.body}
+                  </div>
+                </Remark>
+              ))}
+
               <RemarkBox
               value={this.state.remark}
               ref={(node) => node && node.focus()}
@@ -128,11 +162,28 @@ border: 4px solid #3d3b11;
 border-radius: 8px;
 `
 
+var Remark = styled.div`
+width: 24rem;
+padding: 0.6rem;
+border: 4px solid #3d3b11;
+border-radius: 8px;
+`
+
+var Handle = styled.h4`
+font-family: "Times";
+display: inline-block;
+margin-right: 1rem;
+`
+
 var RemarkGrid = styled.div`
 display: grid;
 grid-template-columns: auto 1fr;
 grid-template-rows: 1fr auto;
 grid-gap: 8px;
+
+${Remark} {
+grid-column: 1 / -1;
+}
 
 ${RemarkBox} {
 grid-column: 1 / -1;
@@ -177,7 +228,11 @@ ${({ box }) => box && `
 `}
 
 & > ${RemarkBalloon} {
-  opacity: ${({remarking}) => remarking ? "100%" : 0};
+  opacity: ${({remarking, remarks}) =>
+  (remarks.some(()=>1) || remarking)
+  ? "100%"
+  : 0
+  };
   transition: opacity 0.2s ease-in;
 }
 &:hover > ${RemarkBalloon} {

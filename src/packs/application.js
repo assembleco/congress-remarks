@@ -18,14 +18,17 @@ require("channels")
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { autorun } from "mobx"
+import { autorun, observable } from "mobx"
 import { observer } from "mobx-react"
 
 import Bill from "../bill"
+import Remark from "../remark"
 import Code from "../code"
 
 var bill = new Bill()
 autorun(() => console.log(bill.key))
+
+var remarks = observable.array([])
 
 fetch("/bills/117hr1eh")
   .then(response => response.json())
@@ -34,9 +37,21 @@ fetch("/bills/117hr1eh")
     bill.measure = response.source
   })
 
+fetch("/remarks")
+  .then(response => response.json())
+  .then(response => {
+    remarks.replace(response.map(x => {
+      var remark = new Remark()
+      remark.place = x.place
+      remark.body = x.body
+      remark.person = x.person
+      return remark
+    }))
+  })
+
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Code source={bill} />,
+    <Code source={bill} remarks={remarks} />,
     document.body.appendChild(document.createElement('div')),
   )
 })
