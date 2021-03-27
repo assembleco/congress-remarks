@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { Icon, InlineIcon } from '@iconify/react'
 import commentIcon from '@iconify-icons/akar-icons/comment'
 
-const Code = observer(({ source, remarks }) => (
+const Code = observer(({ source, remarks, pull_remarks }) => (
   <Page>
     <h1>{source.key}</h1>
     <Measure
@@ -13,6 +13,22 @@ const Code = observer(({ source, remarks }) => (
       place={source.measure.key}
       level={0}
       remarks={remarks}
+      on_remark={(place, body) => {
+        fetch("/remarks", {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+            'Authorization': localStorage.getItem("code"),
+          },
+          body: JSON.stringify({
+            place,
+            body,
+          }),
+        })
+        .then(() => pull_remarks)
+      }}
     />
   </Page>
 ))

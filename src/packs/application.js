@@ -37,21 +37,36 @@ fetch("/bills/117hr1eh")
     bill.measure = response.source
   })
 
-fetch("/remarks")
-  .then(response => response.json())
-  .then(response => {
-    remarks.replace(response.map(x => {
-      var remark = new Remark()
-      remark.place = x.place
-      remark.body = x.body
-      remark.person = x.person
-      return remark
-    }))
-  })
+var pull_remarks = () =>
+  fetch("/remarks")
+    .then(response => response.json())
+    .then(response => {
+      remarks.replace(response.map(x => {
+        var remark = new Remark()
+        remark.place = x.place
+        remark.body = x.body
+        remark.person = x.person
+        return remark
+      }))
+    })
+
+var pull_session = () => fetch('/sessions', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+      'Authorization': localStorage.getItem("code"),
+    }})
+    .then(response => response.json())
+    .then(response => runInAction(() => person = response.person ))
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Code source={bill} remarks={remarks} />,
+    <Code
+    source={bill}
+    remarks={remarks}
+    pull_remarks={pull_remarks}
+    />,
     document.body.appendChild(document.createElement('div')),
   )
 })
