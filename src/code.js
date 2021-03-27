@@ -47,6 +47,7 @@ class Measure extends React.Component {
       label,
       level,
       marker,
+      on_remark,
       place,
       remarks,
       source,
@@ -138,7 +139,7 @@ class Measure extends React.Component {
               </Clickable>
               <Clickable
                 color="#86de86"
-                onClick={() => null}
+                onClick={() => on_remark(place, this.state.remark)}
               >
                 Place Remark
               </Clickable>
