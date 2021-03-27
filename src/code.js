@@ -167,6 +167,7 @@ width: 24rem;
 padding: 0.6rem;
 border: 4px solid #3d3b11;
 border-radius: 8px;
+background: #faf9dd;
 `
 
 var Handle = styled.h4`
