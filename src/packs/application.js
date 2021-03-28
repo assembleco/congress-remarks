@@ -28,7 +28,7 @@ import Code from "../code"
 var bill = new Bill()
 autorun(() => console.log(bill.key))
 
-var remarks = observable.array([])
+var remarks = observable([])
 
 fetch("/bills/117hr1eh")
   .then(response => response.json())
@@ -59,6 +59,8 @@ var pull_session = () => fetch('/sessions', {
     }})
     .then(response => response.json())
     .then(response => runInAction(() => person = response.person ))
+
+pull_remarks()
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
