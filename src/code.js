@@ -243,6 +243,7 @@ border-left: 4px solid ${({ level }) => (
 ${({ box }) => box && `
   background: #d4f1d9aa;
   padding: 8px;
+  margin-right: -8px;
 `}
 
 & > ${RemarkBalloon} {
