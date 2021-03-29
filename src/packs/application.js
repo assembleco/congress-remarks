@@ -24,6 +24,7 @@ import { observer } from "mobx-react"
 import Bill from "../bill"
 import Remark from "../remark"
 import Code from "../code"
+import Homepage from "../homepage"
 
 var bill = new Bill()
 autorun(() => console.log(bill.key))
@@ -64,11 +65,13 @@ pull_remarks()
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Code
-    source={bill}
-    remarks={remarks}
-    pull_remarks={pull_remarks}
-    />,
+    <Homepage>
+      <Code
+      source={bill}
+      remarks={remarks}
+      pull_remarks={pull_remarks}
+      />
+    </Homepage>,
     document.body.appendChild(document.createElement('div')),
   )
 })
