@@ -3,6 +3,13 @@ require "processors/congress/txt"
 
 RSpec.describe "congressional bill processors" do
   describe "on 117th HR 1; 'For the People'" do
+    let(:xml_processor) {
+      Processor::Congress::XML.new \
+        File.read \
+        File.expand_path("../../uploads/BILLS-117hr1eh.xml", __FILE__)
+    }
+    let(:processed) { xml_processor.process }
+
     pending "is processed equally, whether as XML or TXT" do
       xml_processor = Processor::Congress::XML.new \
         File.read \
@@ -18,12 +25,6 @@ RSpec.describe "congressional bill processors" do
     end
 
     it "Pulls hierarchical divisions and titles, with labels and headings" do
-      xml_processor = Processor::Congress::XML.new \
-        File.read \
-        File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
-
-      processed = xml_processor.process
-
       expect(processed.measures(:division).map{|t| [t.label, t.heading]}).
         to match_array([
           ["A", "Voting"],
@@ -58,12 +59,6 @@ RSpec.describe "congressional bill processors" do
     end
 
     it "pulls parts and sections" do
-      xml_processor = Processor::Congress::XML.new \
-        File.read \
-        File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
-
-      processed = xml_processor.process
-
       sec_1001 = processed.
         measures(:subtitle)[0].
         measures(:part)[0].
@@ -83,12 +78,6 @@ RSpec.describe "congressional bill processors" do
     end
 
     it "assigns keys based on original record" do
-      xml_processor = Processor::Congress::XML.new \
-        File.read \
-        File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
-
-      processed = xml_processor.process
-
       sec_3000 = processed.
         measure(:title, "III").
         measures(:section)[0]
@@ -98,11 +87,6 @@ RSpec.describe "congressional bill processors" do
     end
 
     it "replaces body text using handlebar code" do
-      xml_processor = Processor::Congress::XML.new \
-        File.read \
-        File.expand_path( "../../uploads/BILLS-117hr1eh.xml", __FILE__)
-
-      processed = xml_processor.process
       sec_3000 = processed.measure(:section, "3000.")
 
       submeasure_a = <<-END.strip
