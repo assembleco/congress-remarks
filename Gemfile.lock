@@ -84,6 +84,11 @@ GEM
     diff-lcs (1.4.4)
     erubi (1.10.0)
     execjs (2.7.0)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
     ffi (1.15.0)
     formulaic (0.4.1)
       activesupport
@@ -245,6 +250,7 @@ DEPENDENCIES
   autoprefixer-rails
   awesome_print
   bootsnap
+  factory_bot_rails
   formulaic
   honeybadger
   launchy
