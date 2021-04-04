@@ -32,19 +32,17 @@ RSpec.describe "congressional bill processors" do
           ["C", "Ethics"],
       ])
 
-      expect(processed.measures(:title).map{|t| [t.label, t.heading]}).
-        to match_array([
-        ["I", "Election Access"],
-        ["II", "Election Integrity"],
-        ["III", "Election Security"],
-        ["IV", "Campaign Finance Transparency"],
-        ["V", "Campaign Finance Empowerment"],
-        ["VI", "Campaign Finance Oversight"],
-        ["VII", "Ethical Standards"],
-        ["VIII", "Ethics Reforms for the President, Vice President, and Federal Officers and Employees"],
-        ["IX", "Congressional Ethics Reform"],
-        ["X", "Presidential and Vice Presidential Tax Transparency"],
-      ])
+      titles = processed.measures(:title).map{|t| [t.label, t.heading]}
+      expect(titles).to include ["I", "Election Access"]
+      expect(titles).to include ["II", "Election Integrity"]
+      expect(titles).to include ["III", "Election Security"]
+      expect(titles).to include ["IV", "Campaign Finance Transparency"]
+      expect(titles).to include ["V", "Campaign Finance Empowerment"]
+      expect(titles).to include ["VI", "Campaign Finance Oversight"]
+      expect(titles).to include ["VII", "Ethical Standards"]
+      expect(titles).to include ["VIII", "Ethics Reforms for the President, Vice President, and Federal Officers and Employees"]
+      expect(titles).to include ["IX", "Congressional Ethics Reform"]
+      expect(titles).to include ["X", "Presidential and Vice Presidential Tax Transparency"]
 
       expect(
         processed.
