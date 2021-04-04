@@ -13,7 +13,7 @@ var Homepage = ({ children }) => (
 
       <h4>Seeking Sponsorship</h4>
       Help us upgrade and change congressional bills
-      <br/>using a social media-based approach.
+      <br/>by sourcing ideas and remarks on social media.
     </p>
   </Grid>
 )
