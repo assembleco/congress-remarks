@@ -9,7 +9,7 @@ var Homepage = ({ children }) => (
     <Bylines>
       <h2>H.R. 1: "For the People"</h2>
       <p>
-        Leave your remarks on House Resoultion # 1.
+        Place your remarks on House Resoultion # 1.
         <br/>Remind Congress – our laws should also
         <br/>be made <b>*by the people*</b>.
       </p>

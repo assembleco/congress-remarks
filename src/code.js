@@ -223,6 +223,10 @@ font-family: "Ruluko";
 var Page = styled.div`
 border: 4px solid #3d3b11;
 border-radius: 8px;
+@media print {
+  border: none;
+}
+
 position: relative;
 background: #faf9dd;
 color: #3d3b11;
