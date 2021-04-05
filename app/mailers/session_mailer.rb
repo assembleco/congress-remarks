@@ -1,5 +1,5 @@
 class SessionMailer < ApplicationMailer
-  default from: "session@#{ENV["APPLICATION_HOST"]}"
+  default from: "grace.c.youngblood@gmail.com"
 
   def claim
     @session = params[:session]
