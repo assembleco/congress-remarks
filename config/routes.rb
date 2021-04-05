@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :remarks, only: [:index]
+  resources :remarks, only: [:index, :create]
   resources :bills, only: [:show]
 
   resources :sessions, only: [:create, :index]

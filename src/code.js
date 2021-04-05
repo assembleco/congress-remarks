@@ -27,7 +27,7 @@ const Code = observer(({ source, remarks, pull_remarks }) => (
             body,
           }),
         })
-        .then(() => pull_remarks)
+        .then(pull_remarks)
       }}
     />
   </Page>
@@ -72,6 +72,7 @@ class Measure extends React.Component {
           box={measure.marker === "quoted-block"}
           remarks={remarks}
           place={measure.key}
+          on_remark={on_remark}
         />
       )
       index += code.value[0].length

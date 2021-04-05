@@ -52,14 +52,14 @@ var pull_remarks = () =>
     })
 
 var pull_session = () => fetch('/sessions', {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
-      'Authorization': localStorage.getItem("code"),
-    }})
-    .then(response => response.json())
-    .then(response => runInAction(() => person = response.person ))
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").content,
+    'Authorization': localStorage.getItem("code"),
+  }})
+  .then(response => response.json())
+  .then(response => runInAction(() => person = response.person ))
 
 pull_remarks()
 
