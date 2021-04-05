@@ -4,6 +4,8 @@
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.13.5",
     "@babel/preset-react": "^7.12.13",
+    "@iconify-icons/akar-icons": "^1.1.5",
+    "@iconify/react": "^1.1.4",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -18,8 +20,6 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "@iconify-icons/akar-icons": "^1.1.5",
-    "@iconify/react": "^1.1.4",
     "webpack-dev-server": "^3.11.2"
   }
 }
