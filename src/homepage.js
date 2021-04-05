@@ -27,6 +27,11 @@ var Homepage = ({ children }) => (
       </p>
 
       <Session />
+
+      Please see and help us build on&nbsp;
+      <a href="https://github.com/assembleapp/assembled/issues">
+      our open issues</a>,
+      <br/>including navigation and code-linking.
     </Bylines>
   </Grid>
 )
