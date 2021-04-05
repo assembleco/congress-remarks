@@ -32,7 +32,10 @@ class SessionsController < ApplicationController
   end
 
   def index
-    render json: { code: session_hash.code, person: session_hash.person }
+    render json: {
+      code: session_hash.code,
+      person: session_hash.person.slice(:email, :handle),
+    }
   end
 
   def claim

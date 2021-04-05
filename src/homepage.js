@@ -2,6 +2,8 @@ import React from 'react'
 import { observer } from "mobx-react"
 import styled from "styled-components"
 
+import Session from "./session"
+
 var Homepage = ({ children }) => (
   <Grid>
     {children}
@@ -23,6 +25,8 @@ var Homepage = ({ children }) => (
           Please see <a href="https://assembled.app">assembled.app</a>, online.
         </Press>
       </p>
+
+      <Session />
     </Bylines>
   </Grid>
 )
